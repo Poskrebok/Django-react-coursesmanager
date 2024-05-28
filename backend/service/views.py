@@ -73,5 +73,34 @@ class LessonView(APIView):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
-    
-    """ добавить enpdoint для выкачки одного курса и одного урока """
+
+class LessonDetailView(APIView):
+    def get(self, request, lesson_id):
+        try:
+            lesson = Lesson.objects.get(id=lesson_id)
+        except Lesson.DoesNotExist:
+            return Response({'error': 'Lesson does not exist'}, status=404)
+
+        serializer = LessonSerializer(lesson)
+        return Response(serializer.data)
+
+class CourseDetailView(APIView):
+    def get(self, request, course_id):
+        try:
+            course = Course.objects.get(id=course_id)
+        except Course.DoesNotExist:
+            return Response({'error': 'Course does not exist'}, status=404)
+
+        serializer = CourseSerializer(course)
+        return Response(serializer.data)
+
+class LessonsByCourseView(APIView):
+    def get(self, request, course_id):
+        try:
+            course = Course.objects.get(id=course_id)
+        except Course.DoesNotExist:
+            return Response({'error': 'Course does not exist'}, status=404)
+
+        lessons = Lesson.objects.filter(course=course)
+        serializer = LessonSerializer(lessons, many=True)
+        return Response(serializer.data)
