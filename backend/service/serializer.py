@@ -33,4 +33,9 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['id', 'name', 'description', 'pass_rate']
+
+class ResultsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Results
+        fields = ['id_user', 'id_course', 'id_lesson', 'results']
         

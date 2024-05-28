@@ -22,6 +22,13 @@ class Lesson(models.Model):
     description = models.CharField(max_length=255)
     video_link = models.CharField(max_length=255)
     questions = models.JSONField()
+    
+class Results(models.Model):
+    id_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    id_course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    id_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    results = models.BigIntegerField()
+    
 
 
 # Create your models here.

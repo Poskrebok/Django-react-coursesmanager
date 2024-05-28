@@ -104,3 +104,21 @@ class LessonsByCourseView(APIView):
         lessons = Lesson.objects.filter(course=course)
         serializer = LessonSerializer(lessons, many=True)
         return Response(serializer.data)
+    
+class UserResultsView(APIView):
+    def get(self, request, user_id):
+        results = Results.objects.filter(id_user=user_id)
+        serializer = ResultsSerializer(results, many=True)
+        return Response(serializer.data)
+
+class CourseResultsView(APIView):
+    def get(self, request, course_id):
+        results = Results.objects.filter(id_course=course_id)
+        serializer = ResultsSerializer(results, many=True)
+        return Response(serializer.data)
+
+class LessonResultsView(APIView):
+    def get(self, request, lesson_id):
+        results = Results.objects.filter(id_lesson=lesson_id)
+        serializer = ResultsSerializer(results, many=True)
+        return Response(serializer.data)
