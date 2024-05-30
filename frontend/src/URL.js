@@ -11,13 +11,3 @@ export const URLS = {
   LESSONS: `${BASE_URL}/lessons/`,
 };
 
-export const FrontURLS = {
-  LOGIN : `/login`,
-  LOGOUT : `/logout`,
-  REGISTER : `/Register`,
-  HOME : `/`,
-  COURSE : `/Courses`,
-  LESSON : `/Lesson`,
-  LESSONBUILDER : `/lessonBuilder`,
-  PROFILE : `/profile`,
-}
