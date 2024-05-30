@@ -44,16 +44,12 @@ const Profile = () => {
   useEffect(() => {
   
     const checkAccessToken = async () => {
-      if (!localStorage.getItem('access_token')) {
-        navigate('/auth/login'); // Redirect to the "Login" page
-      } else {
         try {
-          const { data } = await axiosInstance.get(URLS.HOME, { withCredentials: true });
+          const { data } = await axiosInstance.request(URLS.HOME, { withCredentials: true });
           setMessage(data.message); //change for user data
         } catch (error) {
-          console.log('not auth');
+          navigate('/auth/login')
         }
-      }
     };
   
     checkAccessToken();

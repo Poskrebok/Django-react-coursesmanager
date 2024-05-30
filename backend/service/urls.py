@@ -1,5 +1,5 @@
 from django.urls import include, path
-from django.urls import re_path as url
+from django.urls import re_path
 from . import views
 
 urlpatterns = [
@@ -7,7 +7,7 @@ urlpatterns = [
     path('home/', views.HomeView.as_view(), name ='home'),
     path('logout/', views.LogoutView.as_view(), name ='logout'),
     path('api/register/', views.UserRegistrationView.as_view(), name='registration'),
-    path('courses/', views.CourseView.as_view(), name='course-list'),
+    re_path(r'^courses/(?:page-(?P<page_number>\d+)/)?$', views.CourseView.as_view(), name='course_list'),
     path('lessons/', views.LessonView.as_view(), name='lesson-list'),
     path('lessons/<int:lesson_id>/', views.LessonDetailView.as_view(), name='lesson-detail'),
     path('courses/<int:course_id>/', views.CourseDetailView.as_view(), name='course-detail'),

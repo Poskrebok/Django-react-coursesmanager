@@ -47,9 +47,20 @@ class UserRegistrationView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CourseView(APIView):
-    permission_classes = [IsAuthenticated]  
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        courses = Course.objects.all()
+        limit = request.GET.get('limit', None)
+        if limit is not None:
+            try:
+                limit = int(limit)
+            except ValueError:
+                return Response({'error': 'Invalid limit parameter. Must be an integer.'}, status=400)
+
+            courses = Course.objects.all()[:limit]
+        else:
+            courses = Course.objects.all()
+
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data)
 

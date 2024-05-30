@@ -1,5 +1,6 @@
 import axios from "axios";
 import { URLS } from "../URL";
+import { useNavigate } from "react-router-dom";
 
 let isRefreshing = false;  // Renamed for clarity
 let failedQueue = [];      // Queue for storing failed requests
@@ -65,7 +66,12 @@ axiosInstance.interceptors.response.use(
         isRefreshing = false;
       }
     }
-
+    const token = localStorage.getItem('access_token')
+    if(error.response.status === 401 && !token)
+    {
+      const navigate = useNavigate();
+      navigate.push('auth/login');
+    }
     return Promise.reject(error);
   }
 );

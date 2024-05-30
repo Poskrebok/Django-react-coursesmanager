@@ -37,7 +37,7 @@ const Login = () => {
           localStorage.setItem('access_token', data.access);
           localStorage.setItem('refresh_token', data.refresh);
           axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${data.access}`;
-          /* navigate(FrontURLS.HOME); */
+          navigate('/admin/profile'); 
           setError('');
       } catch (err) {
           setError(err.response?.data?.message || 'Error logging in');

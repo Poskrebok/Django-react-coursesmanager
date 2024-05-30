@@ -12,7 +12,7 @@ const CourseList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        const response = await axiosInstance.get('/api/courses?limit=10'); // Adjust limit as needed
+        const response = await axiosInstance.get(URLS.COURSESLIMITED); // Adjust limit as needed
         setCourses(response.data);
     };
     fetchData();

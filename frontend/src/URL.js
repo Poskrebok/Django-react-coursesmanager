@@ -9,5 +9,6 @@ export const URLS = {
   REGISTER: `${BASE_URL}/api/register/`,
   COURSES: `${BASE_URL}/courses/`,
   LESSONS: `${BASE_URL}/lessons/`,
+  COURSESLIMITED: `${BASE_URL}/courses?limit=10`,
 };
 
