@@ -67,11 +67,11 @@ axiosInstance.interceptors.response.use(
       }
     }
     const token = localStorage.getItem('access_token')
-    if(error.response.status === 401 && !token)
+/*     if(error.response.status === 401 && !token)
     {
       const navigate = useNavigate();
       navigate.push('auth/login');
-    }
+    } */
     return Promise.reject(error);
   }
 );

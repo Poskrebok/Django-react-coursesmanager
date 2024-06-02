@@ -1,5 +1,8 @@
 import React from "react";
-import { useLocation, Route, Routes, Navigate } from "react-router-dom";
+import {useEffect} from "react";
+import { useLocation, Route, Routes, Navigate, useNavigate} from "react-router-dom";
+import axiosInstance from '../utils/axios.js'
+import { URLS } from "URL.js";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
@@ -30,6 +33,18 @@ const Admin = (props) => {
       }
     });
   }; //
+  //Check, if we are in the system;
+  const navigate = useNavigate();
+  useEffect(() => {
+    const checkAccessToken = async () => {
+        try {
+          await axiosInstance.request(URLS.HOME, { withCredentials: true });
+        } catch (error) {
+          navigate('/auth/login')
+        }
+    };
+    checkAccessToken();
+  }, navigate);
 
   const getBrandText = (path) => {
     for (let i = 0; i < routes.length; i++) {

@@ -5,6 +5,7 @@ import {
 import { useNavigate } from 'react-router-dom'; // To handle redirects
 import { URLS } from 'URL';
 import axiosInstance from 'utils/axios';
+import Header from 'components/Headers/Header';
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
@@ -23,6 +24,9 @@ const CourseList = () => {
   };
 
   return (
+    <>
+    <Header />
+    {/* Page content */}
     <Container fluid className="mt--7">
       <Row>
         <div className="col">
@@ -39,6 +43,7 @@ const CourseList = () => {
                   <th scope="col" />
                 </tr>
               </thead>
+              </Table>
               <tbody>
                 {courses.map((course) => (
                   <tr key={course.id} onClick={() => handleRowClick(course.id)} style={{ cursor: 'pointer' }}>
@@ -48,11 +53,12 @@ const CourseList = () => {
                   </tr>
                 ))}
               </tbody>
-            </Table>
+
           </Card>
         </div>
       </Row>
     </Container>
+    </>
   );
 };
 

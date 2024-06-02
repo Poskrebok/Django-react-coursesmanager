@@ -10,7 +10,7 @@ const Header = () => {
             {/* Card stats */}
             <Row>
               <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
+                {/* <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -37,10 +37,10 @@ const Header = () => {
                       <span className="text-nowrap">Since last month</span>
                     </p>
                   </CardBody>
-                </Card>
+                </Card> */}
               </Col>
               <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
+                {/* <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -65,10 +65,10 @@ const Header = () => {
                       <span className="text-nowrap">Since last week</span>
                     </p>
                   </CardBody>
-                </Card>
+                </Card> */}
               </Col>
               <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
+               {/*  <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -93,10 +93,10 @@ const Header = () => {
                       <span className="text-nowrap">Since yesterday</span>
                     </p>
                   </CardBody>
-                </Card>
+                </Card> */}
               </Col>
               <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
+                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -121,7 +121,7 @@ const Header = () => {
                       <span className="text-nowrap">Since last month</span>
                     </p>
                   </CardBody>
-                </Card>
+                </Card> 
               </Col>
             </Row>
           </div>

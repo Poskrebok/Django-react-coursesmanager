@@ -13,10 +13,8 @@ import {
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
-import axiosInstance from '../utils/axios.js'
 import { React, useState,useEffect } from 'react';
-import { URLS } from "../URL.js";
-import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
   const [message, setMessage] = useState('test');
@@ -38,22 +36,6 @@ const Profile = () => {
   const [university, setUniversity] = useState('test');
   const [grade, setGrade] = useState('test');
   const [additionalInfo, setInfo] = useState('placeholder'); 
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-  
-    const checkAccessToken = async () => {
-        try {
-          const { data } = await axiosInstance.request(URLS.HOME, { withCredentials: true });
-          setMessage(data.message); //change for user data
-        } catch (error) {
-          navigate('/auth/login')
-        }
-    };
-  
-    checkAccessToken();
-  }, navigate);
 
   return (
     <>
@@ -101,20 +83,6 @@ const Profile = () => {
               <CardBody className="pt-0 pt-md-4">
                 <Row>
                   <div className="col">
-                    {/* <div className="card-profile-stats d-flex justify-content-center mt-md-5">
-                      <div>
-                        <span className="heading">22</span>
-                        <span className="description">Friends</span>
-                      </div>
-                      <div>
-                        <span className="heading">10</span>
-                        <span className="description">Photos</span>
-                      </div>
-                      <div>
-                        <span className="heading">89</span>
-                        <span className="description">Comments</span>
-                      </div>
-                    </div> */}
                   </div>
                 </Row>
                 <div className="text-center">
