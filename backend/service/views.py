@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework import permissions
 from .serializer import *
 from .models import *
+from django.contrib.auth import get_user_model
 
 class HomeView(APIView):
    permission_classes = [IsAuthenticated]   
@@ -45,6 +46,24 @@ class UserRegistrationView(APIView):
             return Response(response_data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserListView(APIView):
+    permission_classes = [IsAuthenticated]
+        
+    def get_queryset(self):
+        queryset = CustomUser.objects.all()
+        role = self.request.query_params.get('role')
+
+        if role:
+            queryset = queryset.filter(role=role)
+
+        return queryset
+    
+    def get(self, request):
+        data = UserSerializer(self.get_queryset(),many = True)
+        return Response(data.data)
+        
+            
 
 class CourseView(APIView):
     permission_classes = [IsAuthenticated]
@@ -86,6 +105,7 @@ class LessonView(APIView):
         return Response(serializer.errors, status=400)
 
 class LessonDetailView(APIView):
+    permission_classes = [IsAuthenticated]  
     def get(self, request, lesson_id):
         try:
             lesson = Lesson.objects.get(id=lesson_id)
@@ -95,7 +115,22 @@ class LessonDetailView(APIView):
         serializer = LessonSerializer(lesson)
         return Response(serializer.data)
 
+class CourseCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        serializer = CourseSerializerReceiver(data=request.data)  
+        if serializer.is_valid():
+            course = serializer.save()
+            response_data = {
+                'message': 'Course created successfully',
+                'course_id': course.id  
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class CourseDetailView(APIView):
+    permission_classes = [IsAuthenticated]  
     def get(self, request, course_id):
         try:
             course = Course.objects.get(id=course_id)
@@ -106,6 +141,7 @@ class CourseDetailView(APIView):
         return Response(serializer.data)
 
 class LessonsByCourseView(APIView):
+    permission_classes = [IsAuthenticated]  
     def get(self, request, course_id):
         try:
             course = Course.objects.get(id=course_id)
@@ -117,18 +153,21 @@ class LessonsByCourseView(APIView):
         return Response(serializer.data)
     
 class UserResultsView(APIView):
+    permission_classes = [IsAuthenticated]  
     def get(self, request, user_id):
         results = Results.objects.filter(id_user=user_id)
         serializer = ResultsSerializer(results, many=True)
         return Response(serializer.data)
 
 class CourseResultsView(APIView):
+    permission_classes = [IsAuthenticated]  
     def get(self, request, course_id):
         results = Results.objects.filter(id_course=course_id)
         serializer = ResultsSerializer(results, many=True)
         return Response(serializer.data)
 
 class LessonResultsView(APIView):
+    permission_classes = [IsAuthenticated]  
     def get(self, request, lesson_id):
         results = Results.objects.filter(id_lesson=lesson_id)
         serializer = ResultsSerializer(results, many=True)

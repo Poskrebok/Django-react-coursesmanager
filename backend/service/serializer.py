@@ -21,18 +21,36 @@ class RegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'password2': 'Passwords must match.'})
         user = CustomUser.objects.create_user(password=password, **validated_data)
         return user 
+    
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username','email','role']
 
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = ['id', 'name', 'description', 'video_link', 'questions', 'course_id']
-
+        
 class CourseSerializer(serializers.ModelSerializer):
-    lessons = LessonSerializer(many=True, read_only=True)
 
     class Meta:
         model = Course
         fields = ['id', 'name', 'description', 'pass_rate']
+
+class CourseSerializerReceiver(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['name', 'description', 'pass_rate']  # Include pass_rate if it needs to be set during creation.
+    
+    def create(self, validated_data):
+        # Other custom creation logic can be added here if needed
+        return Course.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        return instance
 
 class ResultsSerializer(serializers.ModelSerializer):
     class Meta:

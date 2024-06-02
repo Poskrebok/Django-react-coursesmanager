@@ -10,5 +10,7 @@ export const URLS = {
   COURSES: `${BASE_URL}/courses/`,
   LESSONS: `${BASE_URL}/lessons/`,
   COURSESLIMITED: `${BASE_URL}/courses?limit=10`,
+  STUDENTSLIMITED: `${BASE_URL}/users?role=1`,
+  CREATECOURSE: `${BASE_URL}/courses/add_new`,
 };
 

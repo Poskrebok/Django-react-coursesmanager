@@ -5,7 +5,7 @@ import StudentList from "views/Students";
 import CourseList from "views/CourseList";
 import { React } from 'react';
 import { Logout } from "views/logout";
-
+import CreateCourse from "views/CreateCourse";
 
 var routes = [
   {
@@ -16,6 +16,13 @@ var routes = [
     layout: "/admin",
   },
   {
+    path: "/create-course",
+    name: "Create Course ",
+    icon: "ni ni-paper-diploma text-orange",
+    component: <CreateCourse />,
+    layout: "/admin",
+  },
+  {
     path: "/courses",
     name: "Courses",
     icon: "ni ni-bullet-list-67 text-red",
@@ -23,7 +30,7 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/Students",
+    path: "/students",
     name: "Students",
     icon: "ni ni-hat-3",
     component: <StudentList />,
