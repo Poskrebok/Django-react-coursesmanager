@@ -12,5 +12,8 @@ export const URLS = {
   COURSESLIMITED: `${BASE_URL}/courses?limit=10`,
   STUDENTSLIMITED: `${BASE_URL}/users?role=1`,
   CREATECOURSE: `${BASE_URL}/courses/add_new`,
+  COURSEDEATILEDVIEW: `${BASE_URL}/courses/<int:course_id>/`,
+  COURSELESSONSTABLE: `${BASE_URL}/courses/<int:course_id>/lessons/`,
+  
 };
 

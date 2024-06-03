@@ -6,7 +6,8 @@ import CourseList from "views/CourseList";
 import { React } from 'react';
 import { Logout } from "views/logout";
 import CreateCourse from "views/CreateCourse";
-
+import CoursePage from "views/Course";
+import CreateLesson from "views/CreateLesson";
 var routes = [
   {
     path: "/user-profile",
@@ -14,13 +15,7 @@ var routes = [
     icon: "ni ni-single-02 text-yellow",
     component: <Profile />,
     layout: "/admin",
-  },
-  {
-    path: "/create-course",
-    name: "Create Course ",
-    icon: "ni ni-paper-diploma text-orange",
-    component: <CreateCourse />,
-    layout: "/admin",
+    filter: "main",
   },
   {
     path: "/courses",
@@ -28,6 +23,7 @@ var routes = [
     icon: "ni ni-bullet-list-67 text-red",
     component: <CourseList />,
     layout: "/admin",
+    filter: "main",
   },
   {
     path: "/students",
@@ -35,6 +31,7 @@ var routes = [
     icon: "ni ni-hat-3",
     component: <StudentList />,
     layout: "/admin",
+    filter: "main",
   },
   {
     path: "/login",
@@ -42,6 +39,7 @@ var routes = [
     icon: "ni ni-key-25 text-info",
     component: <Login />,
     layout: "/auth",
+    filter: "main",
   },
   {
     path: "/logout",
@@ -49,6 +47,7 @@ var routes = [
     icon: "ni ni-key-25 text-info",
     component: <Logout />,
     layout: "/auth",
+    filter: "main",
   },
   {
     path: "/register",
@@ -56,6 +55,31 @@ var routes = [
     icon: "ni ni-circle-08 text-pink",
     component: <Register />,
     layout: "/auth",
+    filter: "main",
+  },
+  {
+    path: "/create-course",
+    name: "Create Course ",
+    icon: "ni ni-paper-diploma text-orange",
+    component: <CreateCourse />,
+    layout: "/admin",
+    filter: "utils",
+  },
+  {
+    path: "/course-page/:courseid",
+    name: "Course",
+    icon: "ni ni-paper-diploma text-orange",
+    component: <CoursePage />,
+    layout: "/admin",
+    filter: "utils",
+  },
+  {
+    path: "/course-page/:lessonId/lesson-create-page",
+    name: "Lesson creator",
+    icon: "ni ni-paper-diploma text-orange",
+    component: <CreateLesson />,
+    layout: "/admin",
+    filter: "utils",
   },
 ];
 

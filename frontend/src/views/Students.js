@@ -48,14 +48,12 @@ const StudentList = () => {
                   <th scope="col" />
                 </tr>
               </thead>
-              </Table>
-              <Table className="align-items-center table-flush" responsive>
                 <tbody>
                   {courses.map((course) => (
                     <tr key={course.id} onClick={() => handleRowClick(course.id)} style={{ cursor: 'pointer' }}>
-                      <td scope="col">{course.username}</td>
-                      <td scope="col">{course.email}</td>
-                      <td scope="col">{course.role}</td>
+                      <th scope="col">{course.username}</th>
+                      <th scope="col">{course.email}</th>
+                      <th scope="col">{course.role}</th>
                     </tr>
                   ))}
                 </tbody>

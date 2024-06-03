@@ -52,6 +52,23 @@ class CourseSerializerReceiver(serializers.ModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         return instance
 
+class LessonSerializerReciver(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = ['name', 'description', 'video_link', 'questions', 'course_id']  # Include pass_rate if it needs to be set during creation.
+    
+    def create(self, validated_data):
+        # Other custom creation logic can be added here if needed
+        return Lesson.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.video_link = validated_data.get('video_link', instance.video_link)
+        instance.questions = validated_data.get('questions', instance.questions)
+        instance.course_id = validated_data.get('course_id', instance.course_id)
+        return instance
+
 class ResultsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Results

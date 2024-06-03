@@ -90,31 +90,6 @@ class CourseView(APIView):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
-class LessonView(APIView):
-    permission_classes = [IsAuthenticated]  
-    def get(self, request):
-        lessons = Lesson.objects.all()
-        serializer = LessonSerializer(lessons, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = LessonSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
-
-class LessonDetailView(APIView):
-    permission_classes = [IsAuthenticated]  
-    def get(self, request, lesson_id):
-        try:
-            lesson = Lesson.objects.get(id=lesson_id)
-        except Lesson.DoesNotExist:
-            return Response({'error': 'Lesson does not exist'}, status=404)
-
-        serializer = LessonSerializer(lesson)
-        return Response(serializer.data)
-
 class CourseCreateView(APIView):
     permission_classes = [IsAuthenticated]
     
@@ -125,6 +100,20 @@ class CourseCreateView(APIView):
             response_data = {
                 'message': 'Course created successfully',
                 'course_id': course.id  
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class LessonCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        serializer = LessonSerializerReciver(data=request.data)  
+        if serializer.is_valid():
+            lesson = serializer.save()
+            response_data = {
+                'message': 'Lesson created successfully',
+                'lesson_id': lesson.id  
             }
             return Response(response_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

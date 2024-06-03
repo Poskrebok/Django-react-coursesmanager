@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom'; // To handle redirects
 import { URLS } from 'URL';
 import axiosInstance from 'utils/axios';
 import CourseListHeader from 'components/Headers/CourseListHeader';
+import { Routes } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import routes from 'routes';
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
@@ -22,9 +25,19 @@ const CourseList = () => {
     };
     fetchData();
   }, []);
-
+  const getRoutes = (routes) => {
+    return routes.map((prop, key) => {
+      if (prop.name === "Course") {
+        return (
+          <Route path={prop.path} element={prop.component} key={key} exact />
+        );
+      } else {
+        return null;
+      }
+    });
+  }; //
   const handleRowClick = (courseId) => {
-    /* history.push(`/courses/${courseId}`); // Redirect to the course detail page */
+     history(`/admin/course-page/${courseId}`);
   };
 
   return (
@@ -37,6 +50,7 @@ const CourseList = () => {
             <Card className="shadow">
               <CardHeader className="border-0">
                 <h3 className="mb-0">Course List</h3>
+                
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
@@ -46,8 +60,6 @@ const CourseList = () => {
                     <th scope="col">Pass Rate</th>
                   </tr>
                 </thead>
-              </Table>
-              <Table className="align-items-center table-flush" responsive>
                   <tbody>
                     {courses.map((course) => (
                       <tr key={course.id} onClick={() => handleRowClick(course.id)} style={{ cursor: 'pointer' }}>
@@ -62,6 +74,9 @@ const CourseList = () => {
           </div>
         </Row>
       </Container>
+      <Routes>
+          {getRoutes(routes)}
+        </Routes>
     </>
   );
 };
