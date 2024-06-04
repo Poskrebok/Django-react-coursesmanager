@@ -88,16 +88,17 @@ const CreateCourse = () => {
         e.preventDefault();
         // Convert formData.questions to JSON
         console.log(params);
-        formData.course_id = params.lessonId;
+        formData.course_id = params.courseid;
         const dataToSubmit = {
             ...formData,
             questions: JSON.stringify(formData.questions)
         };
         console.log(dataToSubmit);
         try {
-            await axiosInstance.post(URLS.CREATECOURSE, dataToSubmit);
+            await axiosInstance.post(`${URLS.COURSES}${params.courseid}/create-lesson/`, dataToSubmit);
+            history(`/admin/course-page/${params.courseid}`)
         } catch (error) {
-            // Handle error
+
         }
         // Handle form submission logic here, e.g., send data to a server
     };

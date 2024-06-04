@@ -41,7 +41,7 @@ class CourseSerializer(serializers.ModelSerializer):
 class CourseSerializerReceiver(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ['name', 'description', 'pass_rate']  # Include pass_rate if it needs to be set during creation.
+        fields = ['name', 'description', 'pass_rate']  
     
     def create(self, validated_data):
         # Other custom creation logic can be added here if needed
@@ -55,10 +55,9 @@ class CourseSerializerReceiver(serializers.ModelSerializer):
 class LessonSerializerReciver(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ['name', 'description', 'video_link', 'questions', 'course_id']  # Include pass_rate if it needs to be set during creation.
+        fields = ['name', 'description', 'video_link', 'questions', 'course']
     
     def create(self, validated_data):
-        # Other custom creation logic can be added here if needed
         return Lesson.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
@@ -66,11 +65,20 @@ class LessonSerializerReciver(serializers.ModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         instance.video_link = validated_data.get('video_link', instance.video_link)
         instance.questions = validated_data.get('questions', instance.questions)
-        instance.course_id = validated_data.get('course_id', instance.course_id)
+        instance.course = validated_data.get('course', instance.course)
+        instance.save()
         return instance
 
 class ResultsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Results
         fields = ['id_user', 'id_course', 'id_lesson', 'results']
+        
+class PostResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Results
+        fields = ['customuser','course','lesson', 'results']
+        
+    def create(self, validated_data):
+        return Lesson.objects.create(**validated_data)
         

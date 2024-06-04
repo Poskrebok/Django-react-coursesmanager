@@ -64,7 +64,7 @@ const CourseList = () => {
                     {courses.map((course) => (
                       <tr key={course.id} onClick={() => handleRowClick(course.id)} style={{ cursor: 'pointer' }}>
                         <th scope="col">{course.name}</th>
-                        <th scope="col">{course.description}</th>
+                        <th scope="col" style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{course.description}</th>
                         <th scope="col">{course.pass_rate}</th>
                       </tr>
                     ))}

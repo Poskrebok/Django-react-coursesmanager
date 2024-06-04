@@ -54,12 +54,16 @@ const CoursePage = () => {
     }, []);
 
 
-    const handleRowClick = (courseId) => {
-        /* history.push(`/courses/${courseId}`); // Redirect to the course detail page */
+    const handleRowClick = (lessonid) => {
+        history(`/admin/course-page/${params.courseid}/${lessonid}`);
     };
 
     const handleLessonCreationBtn = () => {
         history(`/admin/course-page/${params.courseid}/lesson-create-page`);
+    };
+
+    const handleCourseStartBtn = () => {
+        history(`/admin/course-page/${params.courseid}/proceed`);
     };
 
     return (
@@ -89,6 +93,14 @@ const CoursePage = () => {
                                         <Button
                                             color="primary"
                                             href="#pablo"
+                                            onClick={() => handleCourseStartBtn()}
+                                            size="sm"
+                                        >
+                                            Start Course
+                                        </Button>
+                                        <Button
+                                            color="primary"
+                                            href="#pablo"
                                             onClick={() => handleLessonCreationBtn()}
                                             size="sm"
                                         >
@@ -109,7 +121,7 @@ const CoursePage = () => {
                                     {lessons.map((lesson) => (
                                         <tr key={lesson.id} onClick={() => handleRowClick(lesson.id)} style={{ cursor: 'pointer' }}>
                                             <th scope="row">{lesson.name}</th>
-                                            <td>{lesson.description}</td>
+                                            <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lesson.description}</td>
                                             <td>{lesson.pass_rate}</td>
                                         </tr>
                                     ))}

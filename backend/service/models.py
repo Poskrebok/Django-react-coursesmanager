@@ -12,14 +12,14 @@ class CustomUser(AbstractUser):
 class Course(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    description = models.TextField(max_length=1000)
     pass_rate = models.FloatField(default=0)
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    description = models.TextField(max_length=1000)
     video_link = models.CharField(max_length=255)
     questions = models.JSONField()
     

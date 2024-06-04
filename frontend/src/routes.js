@@ -8,6 +8,8 @@ import { Logout } from "views/logout";
 import CreateCourse from "views/CreateCourse";
 import CoursePage from "views/Course";
 import CreateLesson from "views/CreateLesson";
+import LessonPage from "views/Lesson";
+import CourseProceed from "views/CourseProceeding";
 var routes = [
   {
     path: "/user-profile",
@@ -74,13 +76,30 @@ var routes = [
     filter: "utils",
   },
   {
-    path: "/course-page/:lessonId/lesson-create-page",
+    path: "/course-page/:courseid/lesson-create-page",
     name: "Lesson creator",
     icon: "ni ni-paper-diploma text-orange",
     component: <CreateLesson />,
     layout: "/admin",
     filter: "utils",
   },
+  {
+    path: "/course-page/:courseid/:lessonid",
+    name: "Lesson manager",
+    icon: "ni ni-paper-diploma text-orange",
+    component: <LessonPage />,
+    layout: "/admin",
+    filter: "utils",
+  },
+  {
+    path: "/course-page/:courseid/proceed",
+    name: "Course",
+    icon: "ni ni-paper-diploma text-orange",
+    component: <CourseProceed />,
+    layout: "/admin",
+    filter: "utils",
+  }
+
 ];
 
 export default routes;

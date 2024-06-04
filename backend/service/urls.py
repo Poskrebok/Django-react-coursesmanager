@@ -15,6 +15,7 @@ urlpatterns = [
     path('results/user/<int:user_id>/', views.UserResultsView.as_view(), name='user-results'),
     path('results/course/<int:course_id>/', views.CourseResultsView.as_view(), name='course-results'),
     path('results/lesson/<int:lesson_id>/', views.LessonResultsView.as_view(), name='lesson-results'),
+    path('courses/reciveLessonResults/',views.GetLessonResultsView.as_view(), name='get_results'),
     path('users', views.UserListView.as_view(), name='user-list-with-role'),
 ]
 

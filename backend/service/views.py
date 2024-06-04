@@ -31,7 +31,6 @@ class LogoutView(APIView):
         except Exception as e:               
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
-
 class UserRegistrationView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -61,9 +60,7 @@ class UserListView(APIView):
     
     def get(self, request):
         data = UserSerializer(self.get_queryset(),many = True)
-        return Response(data.data)
-        
-            
+        return Response(data.data)        
 
 class CourseView(APIView):
     permission_classes = [IsAuthenticated]
@@ -107,8 +104,15 @@ class CourseCreateView(APIView):
 class LessonCreateView(APIView):
     permission_classes = [IsAuthenticated]
     
-    def post(self, request):
-        serializer = LessonSerializerReciver(data=request.data)  
+    def post(self, request, course_id):
+        try:
+            course = Course.objects.get(id=course_id)
+        except Course.DoesNotExist:
+            return Response({'error': 'Course not found'}, status=status.HTTP_404_NOT_FOUND)
+        data = request.data.copy()
+        data['course'] = course.id  # Assign the course ID to the 'course' field
+        
+        serializer = LessonSerializerReciver(data=data)
         if serializer.is_valid():
             lesson = serializer.save()
             response_data = {
@@ -161,3 +165,15 @@ class LessonResultsView(APIView):
         results = Results.objects.filter(id_lesson=lesson_id)
         serializer = ResultsSerializer(results, many=True)
         return Response(serializer.data)
+    
+class GetLessonResultsView(APIView):
+    permission_classes = [IsAuthenticated]  
+    def post(self, request):
+        results = PostResultSerializer(request.data)
+        if results.is_valid():
+            results.save()
+            response_data = {
+                'message': 'Answers recived',
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
+        return Response(results.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -13,18 +13,20 @@ const CreateCourse = () => {
     const [name, setCourseName] = useState('');
     const [description, setDescription] = useState('');
     const [file, setFile] = useState(null);
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log({ name, description, file });
-        try{
+        try {
             const payload = {
                 name,
                 description,
-              };
-            await axiosInstance.post(URLS.CREATECOURSE, payload);
-        } catch(err) {
-            
+            };
+            const response = await axiosInstance.post(URLS.CREATECOURSE, payload);
+            const { id } = response.data;
+            history(`/admin/course-page/${id}`)
+        } catch (err) {
+
         }
     };
 
@@ -82,7 +84,7 @@ const CreateCourse = () => {
                                                     id="input-course-preview-img"
                                                     placeholder="Preview Image URL"
                                                     type="text"
-                                                    //!create img handler
+                                                //!create img handler
                                                 />
                                             </FormGroup>
                                             <div className="text-center">
