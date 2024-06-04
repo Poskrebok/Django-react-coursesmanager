@@ -1,50 +1,70 @@
-import React, { useState } from 'react';
-import { Button, FormGroup, Input } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { Button, FormGroup, Input, Label } from 'reactstrap';
 
-const Questionnaire = ({ questions, onSubmit }) => {
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [answers, setAnswers] = useState(Array(questions.length).fill(null));
+const Questionnaire = () => {
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState([]);
 
-    const handleAnswerChange = (index, answerIndex) => {
-        const newAnswers = [...answers];
-        newAnswers[index] = answerIndex;
-        setAnswers(newAnswers);
-    };
+  useEffect(() => {
+    fetch('questions.json')
+      .then(response => response.json())
+      .then(data => {
+        setQuestions(data);
+        setAnswers(Array(data.length).fill(undefined));
+      })
+      .catch(error => console.error('Error fetching questions:', error));
+  }, []);
 
-    const handleSubmit = () => {
-        onSubmit(answers);
-    };
+  const handleAnswerChange = (questionIndex, answerIndex) => {
+    const newAnswers = [...answers];
+    newAnswers[questionIndex] = answerIndex;
+    setAnswers(newAnswers);
+  };
 
-    const currentQuestion = questions[currentQuestionIndex];
+  const handleSubmit = () => {
+    console.log(answers);
+  };
 
-    return (
-        <div>
-            <h5>{currentQuestion.text}</h5>
-            {currentQuestion.answers.map((answer, index) => (
-                <FormGroup key={index}>
-                    <Input
-                        type="radio"
-                        name={`question-${currentQuestionIndex}`}
-                        value={index}
-                        onChange={() => handleAnswerChange(currentQuestionIndex, index)}
-                    />
-                    {answer.text}
-                </FormGroup>
-            ))}
-            <Button
-                color="primary"
-                onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
-                disabled={currentQuestionIndex >= questions.length - 1}
-            >
-                Next
-            </Button>
-            {currentQuestionIndex >= questions.length - 1 && (
-                <Button color="success" onClick={handleSubmit}>
-                    Submit
-                </Button>
-            )}
-        </div>
-    );
+  const currentQuestion = questions[currentQuestionIndex];
+
+  if (!currentQuestion) {
+    return <p>Loading...</p>;
+  }
+
+  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+  const isAnswered = answers[currentQuestionIndex] !== undefined;
+
+  return (
+    <div>
+      <h5>{currentQuestion.text}</h5>
+      {currentQuestion.answers.map((answer, index) => (
+        <FormGroup key={index}>
+          <Label>
+            <Input
+              type="radio"
+              name={`question-${currentQuestionIndex}`}
+              value={index}
+              checked={answers[currentQuestionIndex] === index}
+              onChange={() => handleAnswerChange(currentQuestionIndex, index)}
+            />
+            {answer.text}
+          </Label>
+        </FormGroup>
+      ))}
+      {!isLastQuestion && (
+        <Button color="primary" onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)} disabled={!isAnswered}>
+          Next
+        </Button>
+      )}
+      {isLastQuestion && (
+        <Button color="success" onClick={handleSubmit} disabled={answers.includes(undefined)}>
+          Submit
+        </Button>
+      )}
+    </div>
+  );
 };
 
 export default Questionnaire;
+

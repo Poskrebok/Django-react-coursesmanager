@@ -1,13 +1,15 @@
 import React from 'react';
 import YouTube from 'react-youtube';
 
-const API_KEY = 'AIzaSyB5pr7rR0VPTUQ0DLvtRD5KErNI7VSXfl0';
-
-
 const VideoPlayer = ({ videoId, onVideoEnd }) => {
     const opts = {
+        height: '390',
+        width: '640',
         playerVars: {
             autoplay: 1,
+            controls: 1, // show player controls
+            modestbranding: 1, // prevents the YouTube logo from displaying
+            rel: 0, // prevents showing related videos at the end
         },
     };
 
@@ -19,9 +21,7 @@ const VideoPlayer = ({ videoId, onVideoEnd }) => {
         <YouTube
             videoId={videoId}
             opts={opts}
-            apiKey = {API_KEY}
             onEnd={handleEnd}
-
         />
     );
 };

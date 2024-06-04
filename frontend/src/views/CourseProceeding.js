@@ -17,13 +17,19 @@ const CourseProceed = () => {
     const [showQuestions, setShowQuestions] = useState(false);
     const [progress, setProgress] = useState(0);
 
+    const extractVideoId = (url) => {
+        const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(regex);
+        return match ? match[1] : null;
+    };
+
     useEffect(() => {
         // Fetch lessons for the course
         axiosInstance.get(`/courses/${params.courseid}/lessons/`).then(response => {
             setLessons(response.data);
             if (response.data.length > 0) {
-                setVideoLink(response.data[0].video_link);
-                console.log(response.data[0].video_link);
+                setVideoLink(extractVideoId(response.data[0].video_link));
+                console.log(extractVideoId(response.data[0].video_link));
                 setQuestions(response.data[0].questions);
                 console.log(response.data[0].questions);
                 setProgress(0);
