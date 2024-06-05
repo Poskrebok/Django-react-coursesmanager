@@ -43,15 +43,14 @@ const CourseProceed = () => {
         setShowQuestions(true);
     };
 
-    const handleQuestionSubmit = (answers) => {
-        const correctAnswers = questions.filter((q, i) => q.answers[answers[i]].isCorrect);
+    const handleQuestionSubmit = async (answers) => {
+/*         const correctAnswers = questions.filter((q, i) => q.answers[answers[i]].isCorrect);
         const result = (correctAnswers.length / questions.length) * 100;
-        const lessonId = lessons[currentLessonIndex].id;
-
+        const lessonId = lessons[currentLessonIndex].id; */
 
         axios.post('courses/reciveLessonResults/', {  // ensure userId is available from params or context
-            result,
-            lessonId,
+/*             result,
+            lessonId, */
             courseId: params.courseid,
         }).then(response => {
             console.log('Results submitted successfully:', response.data);

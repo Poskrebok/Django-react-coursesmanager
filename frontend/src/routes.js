@@ -10,6 +10,7 @@ import CoursePage from "views/Course";
 import CreateLesson from "views/CreateLesson";
 import LessonPage from "views/Lesson";
 import CourseProceed from "views/CourseProceeding";
+import IndexPage from "views/main";
 var routes = [
   {
     path: "/user-profile",
@@ -98,8 +99,15 @@ var routes = [
     component: <CourseProceed />,
     layout: "/admin",
     filter: "utils",
+  },
+  {
+    path: "/index",
+    name: "Course",
+    icon: "ni ni-paper-diploma text-orange",
+    component: <IndexPage />,
+    layout: "/admin",
+    filter: "utils",
   }
-
 ];
 
 export default routes;

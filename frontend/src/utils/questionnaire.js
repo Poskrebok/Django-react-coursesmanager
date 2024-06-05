@@ -4,7 +4,10 @@ import { Button, FormGroup, Input, Label } from 'reactstrap';
 const Questionnaire = ({ questions, onSubmit }) => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState(Array(questions.length).fill(null));
-  
+    if (typeof questions === 'string') {
+        questions = JSON.parse(questions);
+    }
+
     if (questions.length === 0) {
       return <p>No questions available.</p>;
     }
@@ -21,9 +24,10 @@ const Questionnaire = ({ questions, onSubmit }) => {
   
     const currentQuestion = questions[currentQuestionIndex];
     console.log(questions[currentQuestionIndex]);
+    console.log(questions);
     // Add error checking for invalid question objects
     if (!currentQuestion || !currentQuestion.text || !currentQuestion.answers) {
-      return <p>Invalid question structure: {JSON.stringify(currentQuestion)}</p>;
+      return <p>Invalid question structure: </p>;
     }
   
     const isLastQuestion = currentQuestionIndex === questions.length - 1;
@@ -56,7 +60,7 @@ const Questionnaire = ({ questions, onSubmit }) => {
           </Button>
         )}
         {isLastQuestion && (
-          <Button color="success" onClick={handleSubmit} disabled={answers.includes(null)}>
+          <Button color="success" onClick={handleSubmit} >
             Submit
           </Button>
         )}
