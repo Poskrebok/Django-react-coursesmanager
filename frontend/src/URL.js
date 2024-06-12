@@ -14,6 +14,8 @@ export const URLS = {
   CREATECOURSE: `${BASE_URL}/courses/add_new`,
   COURSEDEATILEDVIEW: `${BASE_URL}/courses/<int:course_id>/`,
   COURSELESSONSTABLE: `${BASE_URL}/courses/<int:course_id>/lessons/`,
+  COURSESENDRESULTS: `${BASE_URL}/courses/reciveLessonResults/`,
+  GETROLE: `${BASE_URL}/userRole`
   
 };
 

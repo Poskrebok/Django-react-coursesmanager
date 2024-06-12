@@ -16,6 +16,7 @@ import {
 import React, { useState } from 'react';
 import axiosInstance from '../utils/axios.js';
 import { URLS } from '../URL.js';
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -24,6 +25,7 @@ const Register = () => {
   const [password2, setConfPassword] = useState('');
   const [role, setRole] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const registerUser = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -43,6 +45,7 @@ const Register = () => {
       };
 
       await axiosInstance.post(URLS.REGISTER, payload);
+      navigate("/login");
       setError('');
     } catch (err) {
       setError(err.response?.data?.message || 'Error registering');

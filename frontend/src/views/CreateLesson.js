@@ -56,7 +56,7 @@ const CreateCourse = () => {
     const handleAddQuestion = () => {
         setFormData({
             ...formData,
-            questions: [...formData.questions, { text: '', answers: [{ text: '', isCorrect: false }] }]
+            questions: [...formData.questions, { text: '', answers: [{ text: '', isCorrect: false }, { text: '', isCorrect: false }] }]
         });
     };
 
@@ -111,7 +111,7 @@ const CreateCourse = () => {
                     <Col lg="8">
                         <Card className="shadow">
                             <CardHeader className="border-0">
-                                <h3 className="mb-0">Course Form</h3>
+                                <h3 className="mb-0">Lesson Form</h3>
                             </CardHeader>
                             <CardBody>
                                 <Form onSubmit={handleSubmit}>
@@ -175,13 +175,14 @@ const CreateCourse = () => {
                                                             onChange={(e) => handleAnswerChange(qIndex, aIndex, e)}
                                                             required
                                                         />
-                                                        <Input
-                                                            type="radio"
-                                                            className="ml-2"
-                                                            name={`correct-${qIndex}`}
-                                                            checked={answer.isCorrect}
-                                                            onChange={() => handleCorrectAnswerChange(qIndex, aIndex)}
-                                                        />
+                                                        <div className="d-flex align-items-center">
+                                                            <Input
+                                                                type="radio"
+                                                                name={`correct-${qIndex}`}
+                                                                checked={answer.isCorrect}
+                                                                onChange={() => handleCorrectAnswerChange(qIndex, aIndex)}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 ))}
                                                 <Button

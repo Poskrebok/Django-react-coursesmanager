@@ -10,13 +10,16 @@ import { useParams } from 'react-router-dom';
 import routes from 'routes';
 import { Routes } from 'react-router-dom';
 import { Route } from 'react-router-dom';
+import { UserContext } from "utils/userContext";
+import { useContext } from 'react';
+
 
 const CoursePage = () => {
     const [lessons, setLessons] = useState([]);
     const [course, setCourse] = useState([]);
     const history = useNavigate();
     const params = useParams()
-    console.log(params.courseid)
+    const { userRole, setUserRole } = useContext(UserContext);
 
     const getRoutes = (routes) => {
         return routes.map((prop, key) => {
@@ -98,14 +101,15 @@ const CoursePage = () => {
                                         >
                                             Start Course
                                         </Button>
-                                        <Button
-                                            color="primary"
-                                            href="#pablo"
-                                            onClick={() => handleLessonCreationBtn()}
-                                            size="sm"
-                                        >
-                                            Create Lesson
-                                        </Button>
+                                        {userRole === 2 ?
+                                            (<Button
+                                                color="primary"
+                                                href="#pablo"
+                                                onClick={() => handleLessonCreationBtn()}
+                                                size="sm"
+                                            >
+                                                Create Lesson
+                                            </Button>) : (<></>)}
                                     </Col>
                                 </Row>
                             </CardHeader>
@@ -114,15 +118,15 @@ const CoursePage = () => {
                                     <tr>
                                         <th scope="col">Lesson</th>
                                         <th scope="col">Description</th>
-                                        <th scope="col">Pass Rate</th>
+{/*                                         <th scope="col">Pass Rate</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {lessons.map((lesson) => (
-                                        <tr key={lesson.id} onClick={() => handleRowClick(lesson.id)} style={{ cursor: 'pointer' }}>
+                                        <tr key={lesson.id} /* onClick={() => handleRowClick(lesson.id)} style={{ cursor: 'pointer' }} */>
                                             <th scope="row">{lesson.name}</th>
                                             <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lesson.description}</td>
-                                            <td>{lesson.pass_rate}</td>
+{/*                                             <td>{lesson.pass_rate}</td> */}
                                         </tr>
                                     ))}
                                 </tbody>

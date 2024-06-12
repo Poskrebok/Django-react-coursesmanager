@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
-
+import { useParams } from "react-router-dom";
 // reactstrap components
 import {
   Button,
@@ -33,11 +33,12 @@ import {
   Row,
   Col,
 } from "reactstrap";
-
-var ps;
+import { UserContext } from "utils/userContext";
+import { useContext } from 'react';
 
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
+  const { userRole, setUserRole } = useContext(UserContext);
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
@@ -52,21 +53,23 @@ const Sidebar = (props) => {
     setCollapseOpen(false);
   };
   // creates the links that appear in the left menu / Sidebar
+  console.log(userRole);
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
       if ((!(prop.layout === "/auth") || (prop.name === "Logout")) && (prop.filter !== "utils"))
-      return (
-        <NavItem key={key}>
-          <NavLink
-            to={prop.layout + prop.path}
-            tag={NavLinkRRD}
-            onClick={closeCollapse}
-          >
-            <i className={prop.icon} />
-            {prop.name}
-          </NavLink>
-        </NavItem>
-      );
+        if (prop.role === "all" || prop.role == userRole)
+          return (
+            <NavItem key={key}>
+              <NavLink
+                to={prop.layout + prop.path}
+                tag={NavLinkRRD}
+                onClick={closeCollapse}
+              >
+                <i className={prop.icon} />
+                {prop.name}
+              </NavLink>
+            </NavItem>
+          );
     });
   };
 

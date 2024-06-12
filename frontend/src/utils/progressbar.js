@@ -3,7 +3,7 @@ import { Progress } from 'reactstrap';
 
 const ProgressBar = ({ progress }) => {
     return (
-        <Progress value={progress} />
+        <Progress value={progress}/>
     );
 };
 

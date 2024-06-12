@@ -11,37 +11,44 @@ import {
   InputGroup,
   Row,
   Col,
+  NavLink,
 } from "reactstrap";
 
 import { URLS } from '../URL';
 import axiosInstance from '../utils/axios.js'
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { UserContext } from "utils/userContext";
+import { useContext } from 'react';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { userRole, setUserRole } = useContext(UserContext);
 
   const loginUser = async (event) => {
-      event.preventDefault();
-      const credentials = { username, password };
+    event.preventDefault();
+    const credentials = { username, password };
 
-      try {
-          const { data } = await axiosInstance.post(URLS.TOKEN, credentials, {
-              headers: { 'Content-Type': 'application/json' },
-              withCredentials: true
-          });
-
-          localStorage.setItem('access_token', data.access);
-          localStorage.setItem('refresh_token', data.refresh);
-          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${data.access}`;
-          navigate('/admin/profile'); 
-          setError('');
-      } catch (err) {
-          setError(err.response?.data?.message || 'Error logging in');
-      }
+    try {
+      const { data } = await axiosInstance.post(URLS.TOKEN, credentials, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      })
+      localStorage.setItem('access_token', data.access);
+      localStorage.setItem('refresh_token', data.refresh);
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${data.access}`;
+      await axiosInstance.get(URLS.GETROLE).then(response => {
+        setUserRole(response.data.role)
+      });
+      navigate('/admin/profile');
+      setError('');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error logging in');
+    }
   };
 
   return (
@@ -54,11 +61,11 @@ const Login = () => {
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                    <i className="ni ni-hat-3" />
+                      <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                  /* should change it to the login later */
+                    /* should change it to the login later */
                     placeholder="Login"
                     type="text"
                     value={username}
@@ -110,17 +117,18 @@ const Login = () => {
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
-              <small>Forgot password?</small>
+              <small>{/* Forgot password? */}</small>
             </a>
           </Col>
           <Col className="text-right" xs="6">
-            <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
-              <small>Create new account</small>
-            </a>
+            <NavLink>
+              <a
+                className="text-light"
+                href="/auth/register"
+              >
+                <small>Create new account</small>
+              </a>
+            </NavLink>
           </Col>
         </Row>
       </Col>

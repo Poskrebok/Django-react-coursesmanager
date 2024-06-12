@@ -1,0 +1,3 @@
+1. Remove "role" from Students.js table;
+2. Make out of Card in header.js some sort of the "add new Course/lesson" OR remain the current role, but make it depict the real numbers like the pass rate;
+3. Add IMG saving to the Django and Front as well;

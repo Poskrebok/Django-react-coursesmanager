@@ -14,6 +14,14 @@ class Course(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=1000)
     pass_rate = models.FloatField(default=0)
+    def calculate_pass_rate(self):
+        total_lessons = self.lesson_set.count()
+        if total_lessons > 0:
+            passed_lessons = self.lesson_set.filter(results__gte=self.pass_rate).count()
+            self.pass_rate = (passed_lessons / total_lessons) * 100
+        else:
+            self.pass_rate = 0
+        self.save()
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)

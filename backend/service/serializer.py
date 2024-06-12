@@ -77,8 +77,8 @@ class ResultsSerializer(serializers.ModelSerializer):
 class PostResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Results
-        fields = ['customuser','course','lesson', 'results']
+        fields = ['id_user','id_course','id_lesson', 'results']
         
     def create(self, validated_data):
-        return Lesson.objects.create(**validated_data)
+        return Results.objects.create(**validated_data)
         

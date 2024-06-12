@@ -166,14 +166,29 @@ class LessonResultsView(APIView):
         serializer = ResultsSerializer(results, many=True)
         return Response(serializer.data)
     
-class GetLessonResultsView(APIView):
-    permission_classes = [IsAuthenticated]  
+class ReciveLessonResultsView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
-        results = PostResultSerializer(request.data)
+        data = request.data.copy()
+        data['id_user'] = request.user.id
+        results = PostResultSerializer(data=data)
         if results.is_valid():
             results.save()
             response_data = {
-                'message': 'Answers recived',
+                'message': 'Answers received'
             }
+            course = Course.objects.get(id=data['id_course'])
+            course.calculate_pass_rate()
             return Response(response_data, status=status.HTTP_201_CREATED)
         return Response(results.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetUserRole(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self,request):
+        role = request.user.role
+        response_data = {
+                'role': role 
+        }
+        return Response(response_data, status=status.HTTP_200_OK)

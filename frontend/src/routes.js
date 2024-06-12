@@ -11,6 +11,10 @@ import CreateLesson from "views/CreateLesson";
 import LessonPage from "views/Lesson";
 import CourseProceed from "views/CourseProceeding";
 import IndexPage from "views/main";
+/* 0 - admin
+1 - student
+2 - teacher
+ */
 var routes = [
   {
     path: "/user-profile",
@@ -19,6 +23,7 @@ var routes = [
     component: <Profile />,
     layout: "/admin",
     filter: "main",
+    role: "all"
   },
   {
     path: "/courses",
@@ -27,6 +32,7 @@ var routes = [
     component: <CourseList />,
     layout: "/admin",
     filter: "main",
+    role: "all"
   },
   {
     path: "/students",
@@ -35,6 +41,7 @@ var routes = [
     component: <StudentList />,
     layout: "/admin",
     filter: "main",
+    role: "2"
   },
   {
     path: "/login",
@@ -43,6 +50,7 @@ var routes = [
     component: <Login />,
     layout: "/auth",
     filter: "main",
+    role: "all"
   },
   {
     path: "/logout",
@@ -51,6 +59,7 @@ var routes = [
     component: <Logout />,
     layout: "/auth",
     filter: "main",
+    role: "all"
   },
   {
     path: "/register",
@@ -59,6 +68,7 @@ var routes = [
     component: <Register />,
     layout: "/auth",
     filter: "main",
+    role: "all"
   },
   {
     path: "/create-course",
@@ -67,6 +77,7 @@ var routes = [
     component: <CreateCourse />,
     layout: "/admin",
     filter: "utils",
+    role: "all"
   },
   {
     path: "/course-page/:courseid",
@@ -75,6 +86,7 @@ var routes = [
     component: <CoursePage />,
     layout: "/admin",
     filter: "utils",
+    role: "all"
   },
   {
     path: "/course-page/:courseid/lesson-create-page",
@@ -83,6 +95,7 @@ var routes = [
     component: <CreateLesson />,
     layout: "/admin",
     filter: "utils",
+    role: "all"
   },
   {
     path: "/course-page/:courseid/:lessonid",
@@ -91,6 +104,7 @@ var routes = [
     component: <LessonPage />,
     layout: "/admin",
     filter: "utils",
+    role: "all"
   },
   {
     path: "/course-page/:courseid/proceed",
@@ -99,6 +113,7 @@ var routes = [
     component: <CourseProceed />,
     layout: "/admin",
     filter: "utils",
+    role: "all"
   },
   {
     path: "/index",
@@ -107,6 +122,7 @@ var routes = [
     component: <IndexPage />,
     layout: "/admin",
     filter: "utils",
+    role: "all"
   }
 ];
 
