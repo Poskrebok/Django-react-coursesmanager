@@ -14,9 +14,11 @@ import {
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
 import { React, useState,useEffect } from 'react';
-
+import axiosInstance from "utils/axios";
+import { URLS } from "URL";
 
 const Profile = () => {
+  const [profile, setProfile] = useState();
   const [message, setMessage] = useState('test');
   const [username, setUsername] = useState('test');
   const [email, setEmail] = useState('test');
@@ -27,15 +29,49 @@ const Profile = () => {
   const [country, setCountry] = useState('test');
   const [postalCode, setPostalCode] = useState('1');
   const [aboutMe, setAbout] = useState('test');
+  const [role, setRole] = useState('');
   
   const [defaultName,setDefault] = useState('test');
   const [defaultImg, setDefaultImg] = useState("../../assets/img/theme/team-4-800x800.jpg");
   const [defaultLowImg, setDefaultLowImg] = useState("../../assets/img/theme/team-4-800x800.jpg");
-  const [age, setAge] = useState('900');
+  const [age, setAge] = useState('34');
 
   const [university, setUniversity] = useState('test');
   const [grade, setGrade] = useState('test');
   const [additionalInfo, setInfo] = useState('placeholder'); 
+
+  const [rawRole,setRawRole] = useState();
+
+  const getData = () => {
+    axiosInstance.get(URLS.GETPROFILE).then((response) => {
+      console.log(response);
+      setRawRole(response.data.role);
+      setUsername(response.data.username);
+      setFirstName(response.data.first_name);
+      setLastName(response.data.last_name);
+      setEmail(response.data.email);
+      if(response.data.role === 2)
+        setRole("Teacher");
+      else
+        setRole("Student");
+      setDefault(response.data.firstname + " " + response.data.lastname);
+    }).catch(error => {
+      console.error('Error fetching profile:', error);
+    })
+  };
+  const collectData = () => {
+    axiosInstance.put(URLS.GETPROFILE, {
+      username,
+      email,  
+      role: rawRole,
+      first_name: firstname,
+      last_name: lastname,
+    });
+  }
+
+  useEffect(() => {
+    getData();
+  },[])
 
   return (
     <>
@@ -102,6 +138,10 @@ const Profile = () => {
                     <i className="ni education_hat mr-2" />
                     {university}
                   </div>
+                  <div className="h5 mt-4">
+                    <i className="ni business_briefcase-24 mr-2" />
+                    {role}
+                  </div>
                   <hr className="my-4" />
                   <p>
                     {additionalInfo}
@@ -124,7 +164,7 @@ const Profile = () => {
                     <Button
                       color="primary"
                       href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={() => collectData()} 
                       size="sm"
                     >
                       Save user information
@@ -153,6 +193,7 @@ const Profile = () => {
                             placeholder="Username"
                             type="text"
                             value={username}
+                            disabled
                             onChange={(e) => setUsername(e.target.value)}
                           />
                         </FormGroup>

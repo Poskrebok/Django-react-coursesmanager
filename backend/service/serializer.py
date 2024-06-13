@@ -27,6 +27,12 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['username','email','role']
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username','email','role','first_name','last_name']
+
+
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson

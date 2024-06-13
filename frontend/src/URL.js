@@ -15,7 +15,10 @@ export const URLS = {
   COURSEDEATILEDVIEW: `${BASE_URL}/courses/<int:course_id>/`,
   COURSELESSONSTABLE: `${BASE_URL}/courses/<int:course_id>/lessons/`,
   COURSESENDRESULTS: `${BASE_URL}/courses/reciveLessonResults/`,
-  GETROLE: `${BASE_URL}/userRole`
+  GETROLE: `${BASE_URL}/userRole`,
+  GETPROFILE: `${BASE_URL}/profile`,
+  COUNTCOURSES: `${BASE_URL}/getCoursesByUser`,
+  COUNTSRUDENTS: `${BASE_URL}/getStudentsByTeacher`,
   
 };
 

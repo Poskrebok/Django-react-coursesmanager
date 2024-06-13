@@ -192,3 +192,43 @@ class GetUserRole(APIView):
                 'role': role 
         }
         return Response(response_data, status=status.HTTP_200_OK)
+    
+class GetProfileData(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = ProfileSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request):
+        user = request.user
+        serializer = ProfileSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class GetCourseByUser(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        courses = Course.objects.count()
+        response_data = {
+            'courses_num': courses 
+        }
+        return Response(response_data,status=status.HTTP_200_OK)
+    
+class getStudentsByTeacher(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        queryset = CustomUser.objects.all()
+        queryset = queryset.filter(role=1)
+        data = queryset.count()
+        response_data = {
+            'student_num': data
+        }
+        return Response(response_data,status=status.HTTP_200_OK) 
+    

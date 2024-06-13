@@ -15,7 +15,10 @@ urlpatterns = [
     path('results/course/<int:course_id>/', views.CourseResultsView.as_view(), name='course-results'),
     path('results/lesson/<int:lesson_id>/', views.LessonResultsView.as_view(), name='lesson-results'),
     path('courses/reciveLessonResults/',views.ReciveLessonResultsView.as_view(), name='get_results'),
+    path('profile', views.GetProfileData.as_view(), name='get_profiel_data'),
     path('users', views.UserListView.as_view(), name='user-list-with-role'),
     path('userRole',views.GetUserRole.as_view(),name='user-role'),
+    path('getCoursesByUser', views.GetCourseByUser.as_view(), name = 'user-driven-course'),
+    path('getStudentsByTeacher', views.getStudentsByTeacher.as_view(), name = 'user-driven-course'),
 ]
 

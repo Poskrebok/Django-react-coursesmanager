@@ -17,6 +17,15 @@ import IndexPage from "views/main";
  */
 var routes = [
   {
+    path: "/index",
+    name: "Main Page",
+    icon: "ni ni-paper-diploma text-orange",
+    component: <IndexPage />,
+    layout: "/admin",
+    filter: "main",
+    role: "all"
+  },
+  {
     path: "/user-profile",
     name: "User Profile",
     icon: "ni ni-single-02 text-yellow",
@@ -115,15 +124,6 @@ var routes = [
     filter: "utils",
     role: "all"
   },
-  {
-    path: "/index",
-    name: "Course",
-    icon: "ni ni-paper-diploma text-orange",
-    component: <IndexPage />,
-    layout: "/admin",
-    filter: "utils",
-    role: "all"
-  }
 ];
 
 export default routes;
