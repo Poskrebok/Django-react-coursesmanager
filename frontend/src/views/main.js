@@ -100,6 +100,7 @@ const IndexPage = () => {
                                     </CardBody>
                                 </Card>
                             </Col>
+                            {role === 2 ?(
                             <Col lg="6" xl="4">
                                 <Card className="card-stats mb-7 mb-x1-0">
                                     <CardBody>
@@ -124,7 +125,7 @@ const IndexPage = () => {
                                         </Button>
                                     </CardBody>
                                 </Card>
-                            </Col>
+                            </Col>) : (<></>)}
                         </Row>
                         <CardBody className="d-flex justify-content-between ">
                             <Button color="secondary" className="d-flex align-items-center" tag={Link} to="/auth/logout" >
