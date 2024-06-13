@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
@@ -17,12 +18,12 @@ class Course(models.Model):
     def calculate_pass_rate(self):
         total_lessons = self.lesson_set.count()
         if total_lessons > 0:
-            passed_lessons = self.lesson_set.filter(results__gte=self.pass_rate).count()
-            self.pass_rate = (passed_lessons / total_lessons) * 100
+            average_pass_rate = self.lesson_set.annotate(average_result=Avg('results__results')).aggregate(Avg('average_result'))['average_result__avg']
+            self.pass_rate = average_pass_rate if average_pass_rate is not None else 0.0
         else:
-            self.pass_rate = 0
+            self.pass_rate = 0.0
         self.save()
-
+        
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     id = models.BigAutoField(primary_key=True)

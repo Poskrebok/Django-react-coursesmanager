@@ -48,46 +48,51 @@ const CourseProceed = () => {
 
     const handleQuestionSubmit = async (answers) => {
         const correctAnswers = questions.filter((question, index) => {
-            return question.answers[answers[index]].isCorrect;
+          return question.answers[answers[index]].isCorrect;
         });
-        const numCorrectAnswers = correctAnswers.length;
         console.log(answers);
-        console.log("handleQuestionSubmit")
-        console.log(`Number of correct answers: ${numCorrectAnswers}`);
-        setTotalResults(totalResults + correctAnswers.length);
-        setTotalQuestions(totalQuestions + questions.length);
+        console.log("handleQuestionSubmit");
+        console.log(`Number of correct answers: ${correctAnswers.length}`);
+        console.log(`Number of questions: ${ questions.length}`);
+        setTotalResults((prevTotalResults) => (prevTotalResults + correctAnswers.length));
+        setTotalQuestions((prevTotalQuestions) => (prevTotalQuestions + questions.length));
         const results = (correctAnswers.length / questions.length) * 100;
         const id_lesson = lessons[currentLessonIndex].id;
-
-        axiosInstance.post(URLS.COURSESENDRESULTS, {  // ensure userId is available from params or context
+      
+        try {
+          const response = await axiosInstance.post(URLS.COURSESENDRESULTS, {
             results,
             id_lesson,
             id_course: params.courseid,
-        }).then(response => {
-            console.log('Results submitted successfully:', response.data);
-
-            // Move to the next lesson
-            const nextLessonIndex = currentLessonIndex + 1;
-            if (nextLessonIndex < lessons.length) {
-                setCurrentLessonIndex(nextLessonIndex);
-                const lesson = lessons[nextLessonIndex];
-                setVideoLink(extractVideoId(lesson.video_link));
-                setQuestions(JSON.parse(lesson.questions));
-                setShowQuestions(false);
-                setProgress(((nextLessonIndex) / lessons.length) * 100);
-            } else {
-                // All lessons completed
-                setProgress(100);
-                // Optionally handle completion state
-            }
-            if (nextLessonIndex == lessons.length) {
-                setPercent((totalResults / totalQuestions) * 100);
-                setIsEnd(true);
-            }
-        }).catch(error => {
-            console.error('Error submitting results:', error);
-        });
-    };
+          });
+          console.log('Results submitted successfully:', response.data);
+      
+          // Move to the next lesson
+          const nextLessonIndex = currentLessonIndex + 1;
+          if (nextLessonIndex < lessons.length) {
+            setCurrentLessonIndex(nextLessonIndex);
+            const lesson = lessons[nextLessonIndex];
+            setVideoLink(extractVideoId(lesson.video_link));
+            setQuestions(JSON.parse(lesson.questions));
+            setShowQuestions(false);
+            setProgress(((nextLessonIndex + 1) / lessons.length) * 100);
+          } else {
+            // All lessons completed
+            setProgress(100);
+            // Optionally handle completion state
+          }
+          if (nextLessonIndex === lessons.length) {
+            const bTR = totalResults + correctAnswers.length;
+            const bTQ = totalQuestions + questions.length;
+            console.log(bTR);
+            console.log(bTQ);
+            setPercent((bTR / bTQ) * 100);
+            setIsEnd(true);
+          }
+        } catch (error) {
+          console.error('Error submitting results:', error);
+        }
+      };
     const hadleReturnBtn = () => {
         navigate(`/admin/course-page/${params.courseid}`);
     };
@@ -108,28 +113,26 @@ const CourseProceed = () => {
                                 <div className="course-page">
                                     <Card className="card-stats mb-4 mb-xl-0">
                                         <CardBody>
-                                                <div className="col d-flex justify-content-center">
-                                                    <CardTitle
-                                                        tag="h5"
-                                                        className="text-uppercase mb-0"
-                                                    >
-
-
-                                                        <p className="mt-4 mb-0 text-muted d-flex justify-content-center">
-                                                            <span className="text-nowrap">Your results:  </span>
-                                                            <span className="text-success mr-2">
-                                                                <i className="fas fa-percent " /> {percent}
-                                                            </span>{" "}
-                                                        </p>
-                                                    </CardTitle>
+                                            <div className="col d-flex justify-content-center">
+                                                <CardTitle
+                                                    tag="h5"
+                                                    className="text-uppercase mb-0"
+                                                >
+                                                    <p className="mt-4 mb-0 text-muted d-flex justify-content-center">
+                                                        <span className="text-nowrap">Your results:  </span>
+                                                        <span className="text-success mr-2">
+                                                            <i className="fas fa-percent " /> {percent}
+                                                        </span>{" "}
+                                                    </p>
+                                                </CardTitle>
+                                            </div>
+                                            <Button className="col d-flex justify-content-center">
+                                                <div>
+                                                    <tr onClick={() => hadleReturnBtn()} style={{ cursor: 'pointer' }}>
+                                                        <base-button size="lg" type="primary">Return</base-button>
+                                                    </tr>
                                                 </div>
-                                                <Button className="col d-flex justify-content-center">
-                                                    <div>
-                                                        <tr onClick={() => hadleReturnBtn()} style={{ cursor: 'pointer' }}>
-                                                            <base-button size="lg" type="primary">Return</base-button>
-                                                        </tr>
-                                                    </div>
-                                                </Button>
+                                            </Button>
                                         </CardBody>
                                     </Card>
                                 </div>
